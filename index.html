@@ -1,0 +1,1691 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b16">
+  <meta name="description" content="Akmalov Muhammadziyo — Frontend Developer. Zamonaviy web-saytlar, React, Next.js va JavaScript.">
+  <meta name="author" content="Akmalov Muhammadziyo">
+  <title>Akmalov Muhammadziyo | Frontend Developer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b16;
+      --surface: rgba(17, 23, 42, .78);
+      --surface-solid: #11172a;
+      --text: #f4f7ff;
+      --muted: #98a4bf;
+      --accent: #7c5cff;
+      --accent2: #00e5c3;
+      --border: rgba(155, 170, 220, .16);
+      --shadow: 0 20px 70px rgba(0, 0, 0, .25);
+      --header: rgba(8, 11, 22, .76);
+      --radius: 22px;
+    }
+
+    body.light {
+      color-scheme: light;
+      --bg: #f5f7ff;
+      --surface: rgba(255, 255, 255, .82);
+      --surface-solid: #ffffff;
+      --text: #17203a;
+      --muted: #64708b;
+      --border: rgba(58, 72, 120, .15);
+      --shadow: 0 20px 70px rgba(40, 55, 100, .10);
+      --header: rgba(245, 247, 255, .83);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      transition: background .4s, color .4s;
+    }
+
+    body, button, a { -webkit-tap-highlight-color: transparent; }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+    button, a { touch-action: manipulation; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--accent2); outline-offset: 5px; }
+
+    ::selection { background: var(--accent); color: white; }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .ambient {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: .19;
+      pointer-events: none;
+      z-index: -1;
+      animation: floatGlow 13s ease-in-out infinite alternate;
+      background: var(--accent);
+      top: 4%;
+      left: -180px;
+    }
+
+    .ambient.two {
+      background: var(--accent2);
+      top: 48%;
+      left: auto;
+      right: -230px;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatGlow {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(100px, 70px) scale(1.25); }
+    }
+
+    /* LOADING */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      background: #080b16;
+      color: #fff;
+      transition: opacity .65s, visibility .65s;
+    }
+
+    #loader.hide { opacity: 0; visibility: hidden; }
+
+    .loader-inner { text-align: center; padding: 24px; }
+
+    .loader-logo {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #7c5cff;
+      border-radius: 24px;
+      margin: 0 auto 25px;
+      font: 700 25px 'Space Grotesk', sans-serif;
+      color: #00e5c3;
+      box-shadow: 0 0 45px #7c5cff35;
+      animation: logoPulse 1s ease-in-out infinite alternate;
+    }
+
+    .loader-title {
+      font: 700 clamp(20px, 5vw, 30px) 'Space Grotesk', sans-serif;
+      letter-spacing: 3px;
+    }
+
+    .loader-title span { color: #00e5c3; }
+
+    .loader-subtitle { color: #8d9ab8; font-size: 13px; margin-top: 8px; }
+
+    .loader-track {
+      height: 3px;
+      width: min(260px, 70vw);
+      background: #202641;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 26px auto 12px;
+    }
+
+    .loader-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #7c5cff, #00e5c3);
+      animation: loadProgress 3s linear forwards;
+    }
+
+    #loader-percent { color: #00e5c3; font-size: 12px; }
+
+    @keyframes loadProgress { to { width: 100%; } }
+    @keyframes logoPulse {
+      from { transform: scale(.94); box-shadow: 0 0 15px #7c5cff25; }
+      to { transform: scale(1.04); box-shadow: 0 0 45px #7c5cff60; }
+    }
+
+    /* HEADER */
+    .header {
+      position: fixed;
+      z-index: 1000;
+      inset: 0 0 auto;
+      background: var(--header);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: auto;
+      padding: 15px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font: 700 22px 'Space Grotesk', sans-serif;
+      white-space: nowrap;
+      letter-spacing: -1px;
+    }
+
+    .brand span { color: var(--accent2); }
+
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      transition: color .25s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--accent2); }
+
+    .nav-actions { display: flex; gap: 8px; align-items: center; }
+
+    .icon-btn, .menu-btn {
+      display: grid;
+      place-items: center;
+      min-width: 39px;
+      height: 39px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .icon-btn:hover, .menu-btn:hover { border-color: var(--accent2); transform: translateY(-2px); }
+
+    .lang-btn { font-size: 11px; font-weight: 800; }
+
+    .menu-btn { display: none; font-size: 20px; }
+
+    /* COMMON */
+    .container { width: min(1120px, calc(100% - 40px)); margin: auto; }
+
+    section { padding: 105px 0; position: relative; }
+
+    .section-label {
+      color: var(--accent2);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font: 700 clamp(29px, 5vw, 43px)/1.2 'Space Grotesk', sans-serif;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .section-description { color: var(--muted); max-width: 630px; }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #9a83ff, #00e5c3);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 21px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s, background .25s;
+    }
+
+    .btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px #7c5cff30; }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(115deg, #7455ff, #5b70ff);
+      border-color: transparent;
+    }
+
+    .btn-outline { background: var(--surface); }
+    .btn-outline:hover { border-color: var(--accent2); }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      border-radius: 40px;
+      padding: 7px 13px;
+      font-size: 12px;
+      margin-bottom: 25px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #00e5a0;
+      border-radius: 50%;
+      box-shadow: 0 0 13px #00e5a0;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink { 50% { opacity: .35; } }
+
+    /* HERO */
+    #home {
+      min-height: 100vh;
+      padding-top: 150px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 65px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font: 700 clamp(39px, 6.3vw, 72px)/1.07 'Space Grotesk', sans-serif;
+      letter-spacing: -3.4px;
+      margin-bottom: 18px;
+    }
+
+    .hero-role {
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 21px);
+      margin-bottom: 17px;
+    }
+
+    .hero-role strong { color: var(--accent2); }
+
+    .hero-description { color: var(--muted); max-width: 550px; font-size: 15px; }
+
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 29px; }
+
+    .hero-socials { display: flex; gap: 10px; margin-top: 28px; }
+
+    .social-link {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: var(--muted);
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 800;
+      transition: .3s;
+    }
+
+    .social-link:hover { color: var(--accent2); border-color: var(--accent2); transform: translateY(-5px) rotate(-4deg); }
+
+    .hero-visual { display: grid; place-items: center; min-height: 390px; }
+
+    .orbit {
+      width: min(340px, 75vw);
+      aspect-ratio: 1;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border: 1px solid #8b76ff45;
+      border-radius: 50%;
+      animation: rotateOrbit 26s linear infinite;
+      box-shadow: inset 0 0 65px #7c5cff0a, 0 0 60px #7c5cff0a;
+    }
+
+    .orbit::before, .orbit::after {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px dashed #00e5c337;
+      border-radius: 50%;
+    }
+
+    .orbit::after { inset: 48px; border-style: solid; border-color: #7c5cff36; }
+
+    @keyframes rotateOrbit { to { transform: rotate(360deg); } }
+
+    .avatar-card {
+      width: 185px;
+      height: 215px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, #7c5cff30, #00e5c310), var(--surface-solid);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      transform: rotate(-5deg);
+      animation: avatarFloat 4s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes avatarFloat {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -12px; }
+    }
+
+    .avatar-symbol {
+      width: 92px;
+      height: 92px;
+      border-radius: 25px;
+      display: grid;
+      place-items: center;
+      font: 700 28px 'Space Grotesk', sans-serif;
+      background: linear-gradient(135deg, #7657ff, #00cbb1);
+      color: white;
+      box-shadow: 0 10px 35px #7657ff40;
+    }
+
+    .avatar-card strong { font: 700 17px 'Space Grotesk', sans-serif; }
+    .avatar-card span { color: var(--muted); font-size: 11px; }
+
+    .orbit-tag {
+      position: absolute;
+      z-index: 2;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-solid);
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      font-weight: 700;
+      animation: tagFloat 3s ease-in-out infinite alternate;
+    }
+
+    .tag-one { top: 40px; right: -10px; color: #00e5c3; }
+    .tag-two { bottom: 48px; left: -23px; color: #a795ff; animation-delay: -1s; }
+    .tag-three { bottom: 10px; right: 30px; animation-delay: -2s; }
+
+    @keyframes tagFloat { to { translate: 0 -9px; } }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .scroll-line { height: 28px; width: 1px; background: linear-gradient(var(--accent2), transparent); }
+
+    /* CARDS */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 35px; }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: border-color .3s, transform .3s;
+    }
+
+    .panel:hover { border-color: #7c5cff70; }
+
+    .panel h3 { font: 700 20px 'Space Grotesk', sans-serif; margin-bottom: 13px; }
+
+    .panel p { color: var(--muted); font-size: 14px; }
+
+    .info-list { list-style: none; display: grid; gap: 15px; }
+
+    .info-list li { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+
+    .info-list span:first-child { color: var(--muted); }
+    .info-list span:last-child { text-align: right; font-weight: 600; }
+
+    .mini-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #7c5cff24, #00e5c320);
+      border: 1px solid var(--border);
+      color: var(--accent2);
+      font-size: 19px;
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+      margin-top: 35px;
+    }
+
+    .skill-card { padding: 22px; }
+
+    .skill-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 15px; }
+    .skill-name { font-weight: 700; font-size: 14px; }
+    .skill-number { color: var(--accent2); font-size: 12px; font-weight: 800; }
+    .skill-track { height: 5px; background: var(--border); border-radius: 10px; overflow: hidden; }
+    .skill-fill { height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #7c5cff, #00e5c3); transition: width 1.5s cubic-bezier(.2,.7,.2,1); }
+
+    .skill-card small { color: var(--muted); display: block; font-size: 11px; margin-top: 12px; }
+
+    /* RESUME */
+    .timeline { margin-top: 38px; position: relative; padding-left: 30px; }
+    .timeline::before { content: ""; position: absolute; top: 8px; bottom: 10px; left: 7px; width: 1px; background: linear-gradient(var(--accent), var(--accent2), transparent); }
+
+    .timeline-item { position: relative; margin-bottom: 22px; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -29px;
+      top: 26px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 16px #00e5c360;
+    }
+
+    .timeline-date { color: var(--accent2); font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+    .timeline-item h3 { font: 700 19px 'Space Grotesk', sans-serif; margin: 7px 0; }
+    .timeline-item p { color: var(--muted); font-size: 13px; }
+
+    .chip-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+    .chip { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 7px 11px; color: var(--muted); font-size: 11px; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 35px; }
+
+    .project-card { padding: 0; overflow: hidden; }
+
+    .project-cover {
+      min-height: 165px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 30%, #8c70ff45, transparent 60%), linear-gradient(135deg, #151d38, #0d1724);
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.light .project-cover { background: radial-gradient(circle at 30% 30%, #8c70ff45, transparent 60%), linear-gradient(135deg, #e8e4ff, #e1f9f5); }
+
+    .project-cover::before, .project-cover::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border: 1px solid #8c70ff55;
+      border-radius: 30px;
+      transform: rotate(35deg);
+      animation: coverSpin 15s linear infinite;
+    }
+
+    .project-cover::after { width: 110px; height: 110px; border-color: #00e5c355; animation-direction: reverse; }
+
+    @keyframes coverSpin { to { rotate: 360deg; } }
+
+    .cover-symbol { z-index: 1; font: 700 38px 'Space Grotesk', sans-serif; color: white; text-shadow: 0 5px 25px #0005; }
+    body.light .cover-symbol { color: #5543a9; }
+
+    .project-body { padding: 22px; }
+    .project-body h3 { font: 700 19px 'Space Grotesk', sans-serif; margin-bottom: 9px; }
+    .project-body p { font-size: 12px; color: var(--muted); }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 7px; margin: 15px 0 18px; }
+    .project-tech span { font-size: 10px; color: var(--accent2); background: #00e5c312; border-radius: 6px; padding: 4px 7px; }
+    .project-link { font-size: 12px; font-weight: 700; color: var(--accent2); }
+    .project-link:hover { text-decoration: underline; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; margin-top: 35px; }
+
+    .contact-items { display: grid; gap: 12px; margin-top: 22px; }
+
+    .contact-item { display: flex; gap: 13px; align-items: center; padding: 14px; border: 1px solid var(--border); border-radius: 15px; transition: .25s; }
+    .contact-item:hover { border-color: var(--accent2); transform: translateX(4px); }
+    .contact-icon { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 13px; background: #7c5cff20; color: var(--accent2); font-size: 18px; }
+    .contact-item small { display: block; color: var(--muted); font-size: 10px; }
+    .contact-item strong { display: block; font-size: 12px; overflow-wrap: anywhere; }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 12px; margin-bottom: 7px; color: var(--muted); }
+    .form-control { width: 100%; padding: 13px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); outline: none; font: inherit; font-size: 13px; transition: border .25s, box-shadow .25s; }
+    .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #7c5cff20; }
+    textarea.form-control { resize: vertical; min-height: 125px; }
+    .form-note { color: var(--muted); font-size: 11px; margin-top: 12px; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 26px 20px; text-align: center; color: var(--muted); font-size: 11px; }
+    footer strong { color: var(--accent2); }
+
+    #back-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 43px;
+      height: 43px;
+      border: 1px solid var(--border);
+      background: var(--surface-solid);
+      border-radius: 14px;
+      cursor: pointer;
+      z-index: 500;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(15px);
+      transition: .3s;
+      box-shadow: var(--shadow);
+    }
+
+    #back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { transform: translateX(-30px); }
+    .reveal-right { transform: translateX(30px); }
+    .reveal-left.visible, .reveal-right.visible { transform: translateX(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links { gap: 13px; }
+      .nav-links a { font-size: 11px; }
+      .hero-grid { gap: 25px; }
+      .hero h1 { letter-spacing: -2px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 700px) {
+      .nav { padding: 12px 17px; }
+      .brand { font-size: 19px; }
+      .menu-btn { display: grid; }
+      .nav-links {
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        top: calc(100% + 8px);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: var(--surface-solid);
+        box-shadow: var(--shadow);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: .25s;
+      }
+
+      .nav-links.open { opacity: 1; visibility: visible; transform: translateY(0); }
+      .nav-links a { padding: 12px; font-size: 13px; border-radius: 10px; }
+      .nav-links a:hover { background: var(--surface); }
+      .nav-actions { gap: 5px; }
+      .icon-btn { min-width: 35px; height: 35px; padding: 0 8px; }
+
+      section { padding: 78px 0; }
+      .container { width: min(100% - 32px, 540px); }
+      #home { padding-top: 130px; min-height: auto; padding-bottom: 90px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 25px; }
+      .hero h1 { font-size: clamp(42px, 12vw, 64px); }
+      .hero-visual { min-height: 330px; }
+      .orbit { width: min(290px, 76vw); }
+      .avatar-card { width: 160px; height: 190px; }
+      .avatar-symbol { width: 75px; height: 75px; }
+      .scroll-hint { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; gap: 11px; }
+      .skill-card { padding: 16px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .section-title { letter-spacing: -1px; }
+      .panel { padding: 22px; }
+    }
+
+    @media (max-width: 380px) {
+      .brand { font-size: 16px; }
+      .nav-actions { gap: 4px; }
+      .icon-btn { min-width: 31px; padding: 0 6px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .hero-buttons .btn { width: 100%; }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      #cursor, #cursor-ring { display: none !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* DESKTOP CUSTOM CURSOR */
+    #cursor, #cursor-ring {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+
+    #cursor { width: 6px; height: 6px; background: var(--accent2); }
+    #cursor-ring { width: 30px; height: 30px; border: 1px solid var(--accent2); transition: width .2s, height .2s, border-color .2s; }
+    #cursor-ring.hovering { width: 46px; height: 46px; border-color: var(--accent); }
+  </style>
+</head>
+
+<body>
+  <div id="loader" role="status" aria-live="polite">
+    <div class="loader-inner">
+      <div class="loader-logo">M.A</div>
+      <div class="loader-title">AKMALOV<span>.</span></div>
+      <p class="loader-subtitle" id="loading-text">Portfolio yuklanmoqda...</p>
+      <div class="loader-track"><div class="loader-bar"></div></div>
+      <div id="loader-percent">0%</div>
+    </div>
+  </div>
+
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="ambient"></div>
+  <div class="ambient two"></div>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <header class="header">
+    <nav class="nav" aria-label="Asosiy navigatsiya">
+      <a class="brand" href="#home">Akhmalov<span>.</span>DEV</a>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#home" data-i18n="navHome">Bosh sahifa</a>
+        <a href="#about" data-i18n="navAbout">Men haqimda</a>
+        <a href="#skills" data-i18n="navSkills">Ko‘nikmalar</a>
+        <a href="#resume" data-i18n="navResume">Resume</a>
+        <a href="#projects" data-i18n="navProjects">Loyihalar</a>
+        <a href="#contact" data-i18n="navContact">Aloqa</a>
+
+      </div>
+
+      <div class="nav-actions">
+        <button class="icon-btn lang-btn" id="language-btn" aria-label="Tilni almashtirish">UZ</button>
+        <button class="icon-btn" id="theme-btn" aria-label="Rang rejimini almashtirish">☀️</button>
+        <!-- CSS: <style> ichiga qo‘sh -->
+<style>
+    .cv-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #00e5c3;
+    border-radius: 12px;
+    background: linear-gradient(115deg, #7455ff, #5b70ff);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.25s;
+}
+
+.cv-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px #7c5cff40;
+}
+
+@media (max-width: 700px) {
+    .cv-download {
+        padding: 8px 9px;
+        font-size: 10px;
+    }
+}
+.cv-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #00e5c3;
+    border-radius: 12px;
+    background: linear-gradient(115deg, #7455ff, #5b70ff);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.25s;
+}
+
+.cv-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px #7c5cff40;
+}
+
+@media (max-width: 700px) {
+    .cv-download {
+        padding: 8px;
+        font-size: 10px;
+    }
+}
+</style>
+
+<!-- HEADER: nav-actions ichiga, til tugmasidan oldin qo‘sh -->
+<a
+    class="cv-download"
+    href="Resume.docx"
+    download="Muhammadziyo_Akmalov_CV.docx"
+    data-i18n="cvDownload"
+>
+    ↓ CV yuklab olish
+</a>
+
+
+        <button class="menu-btn" id="menu-btn" aria-label="Menyuni ochish" aria-expanded="false">☰</button>
+
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow reveal">
+            <span class="status-dot"></span>
+            <span data-i18n="available">Dasturlashni o‘rganyapman va rivojlanyapman</span>
+          </div>
+
+          <h1 class="reveal">
+            <span data-i18n="hello">Salom, men</span><br>
+            <span class="gradient-text">Muhammadziyo</span><br>
+            <span data-i18n="surname">Akmalovman.</span>
+          </h1>
+
+          <p class="hero-role reveal">
+            <span data-i18n="rolePrefix">Men —</span>
+            <strong id="typing">Frontend Developer</strong><span class="gradient-text">_</span>
+          </p>
+
+          <p class="hero-description reveal" data-i18n="heroDesc">
+            Men zamonaviy, chiroyli va qulay web-saytlar yaratishga qiziqaman.
+            Har kuni yangi texnologiyalarni o‘rganib, dasturlashdagi bilimlarimni oshiraman.
+          </p>
+
+          <div class="hero-buttons reveal">
+            <a class="btn btn-primary" href="#projects" data-i18n="seeProjects">Loyihalarimni ko‘r ↗</a>
+            <a class="btn btn-outline" href="#contact" data-i18n="contactMe">Men bilan bog‘lan</a>
+          </div>
+
+          <div class="hero-socials reveal">
+            <a class="social-link" href="https://github.com/men-Botman" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GH</a>
+            <a class="social-link" href="https://t.me/akhmalov_lvl" target="_blank" rel="noopener noreferrer" aria-label="Telegram">TG</a>
+            <a class="social-link" href="mailto:toraakhmalov@gmail.com" aria-label="Email">@</a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal reveal-right">
+          <div class="orbit">
+            <div class="avatar-card">
+              <div class="avatar-symbol">M.A</div>
+              <strong>Muhammadziyo</strong>
+              <span>Frontend Developer</span>
+            </div>
+            <div class="orbit-tag tag-one">React.js ⚛</div>
+            <div class="orbit-tag tag-two">JavaScript ✦</div>
+            <div class="orbit-tag tag-three">Next.js ↗</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-hint"><span class="scroll-line"></span><span data-i18n="scroll">Pastga aylantiring</span></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <div class="section-label reveal" data-i18n="aboutLabel">01 / Men haqimda</div>
+        <h2 class="section-title reveal" data-i18n="aboutTitle">Men haqimda <span class="gradient-text">Batafsil</span></h2>
+        <p class="section-description reveal" data-i18n="aboutIntro">
+          Men Akmalov Muhammadziyo — Farg‘ona viloyatida tug‘ilgan, dasturlashga qiziquvchi yosh web-dasturchiman.
+        </p>
+
+        <div class="about-grid">
+          <article class="panel reveal">
+            <div class="mini-icon">✦</div>
+            <h3 data-i18n="myStory">Mening hikoyam</h3>
+            <p data-i18n="myStoryText">
+              Men 2014-yil 25-iyunda Farg‘ona viloyatida tug‘ilganman.
+              Dasturlashga qiziqaman va hozirda Al-Farg‘oniy o‘quv markazida
+              dasturlash bo‘yicha tahsil olyapman. Maqsadim — bilimlarimni
+              muntazam rivojlantirish, yangi loyihalar yaratish va kuchli dasturchi bo‘lish.
+            </p>
+          </article>
+
+          <article class="panel reveal">
+            <div class="mini-icon">⌘</div>
+            <h3 data-i18n="personalInfo">Shaxsiy ma’lumotlar</h3>
+            <ul class="info-list">
+              <li><span data-i18n="fullName">To‘liq ism</span><span>Akmalov Muhammadziyo</span></li>
+              <li><span data-i18n="birthDate">Tug‘ilgan sana</span><span>25.06.2014</span></li>
+              <li><span data-i18n="birthPlace">Tug‘ilgan joy</span><span data-i18n="fergana">Farg‘ona, O‘zbekiston</span></li>
+              <li><span data-i18n="profession">Yo‘nalish</span><span>Frontend Development</span></li>
+              <li><span data-i18n="education">Ta’lim</span><span>Al-Farg‘oniy</span></li>
+              <li><span data-i18n="languages">Tillar</span><span>O‘zbek / Русский / English</span></li>
+            </ul>
+          </article>
+
+          <article class="panel reveal">
+            <div class="mini-icon">⚡</div>
+            <h3 data-i18n="interests">Qiziqishlarim</h3>
+            <p data-i18n="interestsText">
+              Web-dasturlash, zamonaviy interfeyslar yaratish, yangi frameworklarni
+              o‘rganish, kreativ dizayn, animatsiyalar va muammolarni kod orqali hal qilish.
+            </p>
+            <div class="chip-list">
+              <span class="chip">Web Development</span>
+              <span class="chip">UI / UX</span>
+              <span class="chip">Creative Coding</span>
+            </div>
+          </article>
+
+          <article class="panel reveal">
+            <div class="mini-icon">◎</div>
+            <h3 data-i18n="goal">Maqsadim</h3>
+            <p data-i18n="goalText">
+              Kuchli frontend dasturchi bo‘lib yetishish, haqiqiy loyihalar yaratish,
+              ochiq kodli loyihalarda qatnashish va kelajakda katta texnologik
+              loyihalar ustida ishlash.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-label reveal" data-i18n="skillsLabel">02 / Texnologiyalar</div>
+        <h2 class="section-title reveal" data-i18n="skillsTitle">Mening <span class="gradient-text">Ko‘nikmalarim</span></h2>
+        <p class="section-description reveal" data-i18n="skillsIntro">
+          Men o‘rganayotgan va web-dasturlashda foydalanadigan texnologiyalar.
+          Ko‘nikmalarim tajriba orttirish bilan rivojlanib bormoqda.
+        </p>
+
+        <div class="skills-grid">
+          <article class="panel skill-card reveal" data-level="80">
+            <div class="skill-top"><span class="skill-name">HTML5</span><span class="skill-number">80%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="htmlDesc">Sahifa tuzilishi va semantik HTML</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="75">
+            <div class="skill-top"><span class="skill-name">CSS3</span><span class="skill-number">75%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="cssDesc">Dizayn, Flexbox, Grid va animatsiyalar</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="60">
+            <div class="skill-top"><span class="skill-name">JavaScript</span><span class="skill-number">60%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="jsDesc">DOM, hodisalar va interaktivlik</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="55">
+            <div class="skill-top"><span class="skill-name">Tailwind CSS</span><span class="skill-number">55%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="tailwindDesc">Utility-first dizayn</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="45">
+            <div class="skill-top"><span class="skill-name">React.js</span><span class="skill-number">45%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="reactDesc">Komponentlar va UI yaratish</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="35">
+            <div class="skill-top"><span class="skill-name">Next.js</span><span class="skill-number">35%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="nextDesc">React asosidagi web-framework</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="30">
+            <div class="skill-top"><span class="skill-name">Node.js</span><span class="skill-number">30%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="nodeDesc">Server tomonidagi JavaScript</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="40">
+            <div class="skill-top"><span class="skill-name">Git / GitHub</span><span class="skill-number">40%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="gitDesc">Kod versiyalarini boshqarish</small>
+          </article>
+
+          <article class="panel skill-card reveal" data-level="40">
+            <div class="skill-top"><span class="skill-name">Responsive Design</span><span class="skill-number">40%</span></div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+            <small data-i18n="responsiveDesc">Barcha ekranlarga mos interfeyslar</small>
+          </article>
+        </div>
+
+        <p class="form-note" data-i18n="skillsNote">Eslatma: foizlar namuna sifatida kiritilgan. Ularni haqiqiy darajangga moslab o‘zgartir.</p>
+      </div>
+    </section>
+
+    <!-- RESUME -->
+    <section id="resume">
+      <div class="container">
+        <div class="section-label reveal" data-i18n="resumeLabel">03 / Rezyume</div>
+        <h2 class="section-title reveal">My <span class="gradient-text">Resume</span></h2>
+        <p class="section-description reveal" data-i18n="resumeIntro">
+          Ta’limim, rivojlanish yo‘lim va dasturlashdagi maqsadlarim.
+        </p>
+
+        <div class="timeline">
+          <article class="panel timeline-item reveal">
+            <div class="timeline-date" data-i18n="now">Hozirgi vaqt</div>
+            <h3 data-i18n="learningTitle">Frontend Development</h3>
+            <p data-i18n="learningText">
+              HTML, CSS, JavaScript, Tailwind CSS, React, Next.js va Typescript texnologiyalarini o‘rganish hamda amaliyot qilish.
+            </p>
+            <div class="chip-list">
+              <span class="chip">HTML</span><span class="chip">CSS</span>
+              <span class="chip">JavaScript</span><span class="chip">React</span>
+              <span class="chip">Next.js</span>
+            </div>
+          </article>
+
+          <article class="panel timeline-item reveal">
+            <div class="timeline-date" data-i18n="educationPeriod">Ta’lim</div>
+            <h3 data-i18n="educationTitle">Al-Farg‘oniy o‘quv markazi</h3>
+            <p data-i18n="educationText">
+              Dasturlash yo‘nalishida tahsil olyapman. Nazariy bilimlarni amaliy loyihalar bilan mustahkamlashga intilaman.
+            </p>
+          </article>
+
+          <article class="panel timeline-item reveal">
+            <div class="timeline-date" data-i18n="nextStep">Keyingi qadam</div>
+            <h3 data-i18n="futureTitle">Professional dasturchi bo‘lish</h3>
+            <p data-i18n="futureText">
+              Ko‘proq loyihalar yaratish, kod yozish sifatini oshirish va zamonaviy web-texnologiyalarni chuqurroq o‘rganish.
+            </p>
+          </article>
+        </div>
+
+        <a class="btn btn-outline reveal" href="https://github.com/men-Botman" target="_blank" rel="noopener noreferrer" data-i18n="githubResume">
+          GitHub profilimni ko‘ring ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-label reveal" data-i18n="projectsLabel">04 / Portfolio</div>
+        <h2 class="section-title reveal" data-i18n="projectsTitle">Tanlangan <span class="gradient-text">loyihalar</span></h2>
+        <p class="section-description reveal" data-i18n="projectsIntro">
+          Bu bo‘limga o‘zing yaratgan haqiqiy loyihalarni va ularning GitHub havolalarini qo‘shishing mumkin.
+        </p>
+
+        <div class="projects-grid">
+          <article class="panel project-card reveal">
+            <div class="project-cover"><div class="cover-symbol">&lt;/&gt;</div></div>
+            <div class="project-body">
+              <h3 data-i18n="projectOne">Shaxsiy Portfolio</h3>
+              <p data-i18n="projectOneDesc">Shaxsiy ma’lumotlar, ko‘nikmalar va aloqa ma’lumotlari uchun zamonaviy portfolio sayti.</p>
+              <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+              <a class="project-link" href="https://github.com/men-Botman" target="_blank" rel="noopener noreferrer" data-i18n="viewGithub">GitHub profilini ko‘r ↗</a>
+            </div>
+          </article>
+
+          <article class="panel project-card reveal">
+            <div class="project-cover"><div class="cover-symbol">UI/UX</div></div>
+            <div class="project-body">
+              <h3 data-i18n="projectTwo">Interaktiv web-dizayn</h3>
+              <p data-i18n="projectTwoDesc">Animatsiyalar, responsive dizayn va qulay foydalanuvchi interfeysi uchun loyiha g‘oyasi.</p>
+              <div class="project-tech"><span>CSS</span><span>JavaScript</span><span>Responsive</span></div>
+              <a class="project-link" href="https://github.com/men-Botman" target="_blank" rel="noopener noreferrer" data-i18n="viewGithub">GitHub profilini ko‘r ↗</a>
+            </div>
+          </article>
+
+          <article class="panel project-card reveal">
+            <div class="project-cover"><div class="cover-symbol">⚛</div></div>
+            <div class="project-body">
+              <h3 data-i18n="projectThree">React loyihasi</h3>
+              <p data-i18n="projectThreeDesc">React va zamonaviy frontend texnologiyalarini mashq qilish uchun loyiha kartasi.</p>
+              <div class="project-tech"><span>React</span><span>Next.js</span><span>JavaScript</span></div>
+              <a class="project-link" href="https://github.com/men-Botman" target="_blank" rel="noopener noreferrer" data-i18n="viewGithub">GitHub profilini ko‘r ↗</a>
+            </div>
+          </article>
+        </div>
+        <p class="form-note" data-i18n="projectNote">Ushbu kartalar namunaviy. Haqiqiy loyihalaringni qo‘shib, havolalarini yangila.</p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-label reveal" data-i18n="contactLabel">05 / Bog‘lanish</div>
+        <h2 class="section-title reveal" data-i18n="contactTitle">Keling, <span class="gradient-text">bog‘lanamiz!</span></h2>
+        <p class="section-description reveal" data-i18n="contactIntro">
+          Savolingiz, taklifingiz yoki loyiha g‘oyangiz bormi? Quyidagi aloqa kanallari orqali menga yozishingiz mumkin.
+        </p>
+
+        <div class="contact-grid">
+          <div class="panel reveal">
+            <h3 data-i18n="contactDetails">Aloqa ma’lumotlari</h3>
+            <p data-i18n="contactDetailsText">Men bilan quyidagi platformalar orqali bog‘laning.</p>
+
+            <div class="contact-items">
+              <a class="contact-item" href="https://t.me/akhmalov_lvl" target="_blank" rel="noopener noreferrer">
+                <span class="contact-icon">➤</span>
+                <span><small>Telegram</small><strong>@akhmalov_lvl</strong></span>
+              </a>
+
+              <a class="contact-item" href="mailto:toraakhmalov@gmail.com">
+                <span class="contact-icon">@</span>
+                <span><small>Email</small><strong>toraakhmalov@gmail.com</strong></span>
+              </a>
+
+              <a class="contact-item" href="tel:+998505745772">
+                <span class="contact-icon">☎</span>
+                <span><small data-i18n="phoneLabel">Telefon</small><strong>+998 50 574 57 72</strong></span>
+              </a>
+
+              <a class="contact-item" href="https://github.com/men-Botman" target="_blank" rel="noopener noreferrer">
+                <span class="contact-icon">GH</span>
+                <span><small>GitHub</small><strong>github.com/men-Botman</strong></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="panel reveal">
+            <h3 data-i18n="sendMessage">Menga xabar yubor</h3>
+            <p data-i18n="formIntro">Xabarni to‘ldiring. U email dasturingizda tayyor xat sifatida ochiladi.</p>
+
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="sender-name" data-i18n="yourName">Ismingiz</label>
+                <input class="form-control" id="sender-name" name="name" required maxlength="100" autocomplete="name" placeholder="Ismingiz">
+              </div>
+
+              <div class="form-group">
+                <label for="sender-email" data-i18n="yourEmail">Email manzilingiz</label>
+                <input class="form-control" id="sender-email" name="email" type="email" required maxlength="150" autocomplete="email" placeholder="name@example.com">
+              </div>
+
+              <div class="form-group">
+                <label for="sender-message" data-i18n="yourMessage">Xabaringiz</label>
+                <textarea class="form-control" id="sender-message" name="message" required maxlength="3000" placeholder="Xabaringizni yozing..."></textarea>
+              </div>
+
+              <button class="btn btn-primary" type="submit" data-i18n="sendBtn">Email orqali yuborish ↗</button>
+              <p class="form-note" data-i18n="emailNote">Bu forma serverga ulanmagan. Xabar yuborish uchun qurilmangizda email dasturi bo‘lishi kerak.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> <strong>Akmalov Muhammadziyo</strong> · <span data-i18n="footerText">Mehr bilan yaratilgan</span> ✦</p>
+  </footer>
+
+  <button id="back-top" aria-label="Sahifa boshiga qaytish">↑</button>
+
+  <script>
+    // ===================================================
+    // 1. LOADER: 3 SONIYA
+    // ===================================================
+    const loader = document.getElementById('loader');
+    const percent = document.getElementById('loader-percent');
+    const startTime = performance.now();
+    let loaderDone = false;
+
+    function finishLoader() {
+      if (loaderDone) return;
+      loaderDone = true;
+      loader.classList.add('hide');
+      document.body.style.overflow = '';
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    function updateLoader(now) {
+      const progress = Math.min((now - startTime) / 3000, 1);
+      percent.textContent = Math.round(progress * 100) + '%';
+
+      if (progress < 1) {
+        requestAnimationFrame(updateLoader);
+      } else {
+        finishLoader();
+      }
+    }
+
+    requestAnimationFrame(updateLoader);
+
+    // Brauzer tabida sahifa yuklanishi juda sekin bo'lsa ham loader yopiladi.
+    window.addEventListener('load', () => {
+      const remaining = Math.max(0, 3000 - (performance.now() - startTime));
+      setTimeout(finishLoader, remaining);
+    }, { once: true });
+
+    // ===================================================
+    // 2. TARJIMALAR: UZ / RU / EN
+    // ===================================================
+    const translations = {
+      uz: {
+        loading: "Portfolio yuklanmoqda...",
+        navHome: "Bosh sahifa", navAbout: "Men haqimda",
+        navSkills: "Ko‘nikmalar", navResume: "Resume",
+        navProjects: "Loyihalar", navContact: "Aloqa",
+        available: "Dasturlashni o‘rganyapman va rivojlanyapman",
+        hello: "Salom, men", surname: "Akmalovman.",
+        rolePrefix: "Men —", heroDesc: "Men zamonaviy, chiroyli va qulay web-saytlar yaratishga qiziqaman. Har kuni yangi texnologiyalarni o‘rganib, dasturlashdagi bilimlarimni oshiraman.",
+        seeProjects: "Loyihalarimni ko‘r ↗", contactMe: "Men bilan bog‘lan",
+        scroll: "Pastga aylantiring",
+        aboutLabel: "01 / Men haqimda", aboutTitle: "Men haqimda <span class='gradient-text'>batafsil</span>",
+        aboutIntro: "Men Akmalov Muhammadziyo — Farg‘ona viloyatida tug‘ilgan, dasturlashga qiziquvchi yosh web-dasturchiman.",
+        myStory: "Mening hikoyam",
+        myStoryText: "Men 2014-yil 25-iyunda Farg‘ona viloyatida tug‘ilganman. Dasturlashga qiziqaman va hozirda Al-Farg‘oniy o‘quv markazida dasturlash bo‘yicha tahsil olyapman. Maqsadim — bilimlarimni muntazam rivojlantirish, yangi loyihalar yaratish va kuchli dasturchi bo‘lish.",
+        personalInfo: "Shaxsiy ma’lumotlar", fullName: "To‘liq ism",
+        birthDate: "Tug‘ilgan sana", birthPlace: "Tug‘ilgan joy",
+        fergana: "Farg‘ona, O‘zbekiston", profession: "Yo‘nalish",
+        education: "Ta’lim", languages: "Tillar",
+        interests: "Qiziqishlarim",
+        interestsText: "Web-dasturlash, zamonaviy interfeyslar yaratish, yangi frameworklarni o‘rganish, kreativ dizayn, animatsiyalar va muammolarni kod orqali hal qilish.",
+        goal: "Maqsadim",
+        goalText: "Kuchli frontend dasturchi bo‘lib yetishish, haqiqiy loyihalar yaratish, ochiq kodli loyihalarda qatnashish va kelajakda katta texnologik loyihalar ustida ishlash.",
+        skillsLabel: "02 / Texnologiyalar", skillsTitle: "Mening <span class='gradient-text'>ko‘nikmalarim</span>",
+        skillsIntro: "Men o‘rganayotgan va web-dasturlashda foydalanadigan texnologiyalar. Ko‘nikmalarim tajriba orttirish bilan rivojlanib bormoqda.",
+        htmlDesc: "Sahifa tuzilishi va semantik HTML", cssDesc: "Dizayn, Flexbox, Grid va animatsiyalar",
+        jsDesc: "DOM, hodisalar va interaktivlik", tailwindDesc: "Utility-first dizayn",
+        reactDesc: "Komponentlar va UI yaratish", nextDesc: "React asosidagi web-framework",
+        nodeDesc: "Server tomonidagi JavaScript", gitDesc: "Kod versiyalarini boshqarish",
+        responsiveDesc: "Barcha ekranlarga mos interfeyslar",
+        skillsNote: "Eslatma: foizlar namuna sifatida kiritilgan. Ularni haqiqiy darajangga moslab o‘zgartir.",
+        resumeLabel: "03 / Rezyume", resumeIntro: "Ta’limim, rivojlanish yo‘lim va dasturlashdagi maqsadlarim.",
+        now: "Hozirgi vaqt", learningTitle: "Frontend Development",
+        learningText: "HTML, CSS, JavaScript, Tailwind CSS, React, Next.js va Node.js texnologiyalarini o‘rganish hamda amaliyot qilish.",
+        educationPeriod: "Ta’lim", educationTitle: "Al-Farg‘oniy o‘quv markazi",
+        educationText: "Dasturlash yo‘nalishida tahsil olyapman. Nazariy bilimlarni amaliy loyihalar bilan mustahkamlashga intilaman.",
+        nextStep: "Keyingi qadam", futureTitle: "Professional dasturchi bo‘lish",
+        futureText: "Ko‘proq loyihalar yaratish, kod yozish sifatini oshirish va zamonaviy web-texnologiyalarni chuqurroq o‘rganish.",
+        githubResume: "GitHub profilimni ko‘r ↗",
+        projectsLabel: "04 / Portfolio", projectsTitle: "Tanlangan <span class='gradient-text'>loyihalar</span>",
+        projectsIntro: "Bu bo‘limga o‘zing yaratgan haqiqiy loyihalarni va ularning GitHub havolalarini qo‘shishing mumkin.",
+        projectOne: "Shaxsiy Portfolio", projectOneDesc: "Shaxsiy ma’lumotlar, ko‘nikmalar va aloqa ma’lumotlari uchun zamonaviy portfolio sayti.",
+        projectTwo: "Interaktiv web-dizayn", projectTwoDesc: "Animatsiyalar, responsive dizayn va qulay foydalanuvchi interfeysi uchun loyiha g‘oyasi.",
+        projectThree: "React loyihasi", projectThreeDesc: "React va zamonaviy frontend texnologiyalarini mashq qilish uchun loyiha kartasi.",
+        viewGithub: "GitHub profilini ko‘r ↗", projectNote: "Ushbu kartalar namunaviy. Haqiqiy loyihalaringni qo‘shib, havolalarini yangila.",
+        contactLabel: "05 / Bog‘lanish", contactTitle: "Keling, <span class='gradient-text'>bog‘lanamiz!</span>",
+        contactIntro: "Savolingiz, taklifingiz yoki loyiha g‘oyangiz bormi? Quyidagi aloqa kanallari orqali menga yozishingiz mumkin.",
+        contactDetails: "Aloqa ma’lumotlari", contactDetailsText: "Men bilan quyidagi platformalar orqali bog‘laning.",
+        phoneLabel: "Telefon", sendMessage: "Menga xabar yubor",
+        formIntro: "Xabarni to‘ldiring. U email dasturingizda tayyor xat sifatida ochiladi.",
+        yourName: "Ismingiz", yourEmail: "Email manzilingiz", yourMessage: "Xabaringiz",
+        sendBtn: "Email orqali yuborish ↗",
+        emailNote: "Bu forma serverga ulanmagan. Xabar yuborish uchun qurilmangizda email dasturi bo‘lishi kerak.",
+        footerText: "Mehr bilan yaratilgan",
+        typingWords: ["Frontend Developer", "Web Developer", "UI Enthusiast", "Future Engineer"]
+      },
+
+      ru: {
+        loading: "Загрузка портфолио...",
+        navHome: "Главная", navAbout: "Обо мне", navSkills: "Навыки",
+        navResume: "Резюме", navProjects: "Проекты", navContact: "Контакты",
+        available: "Изучаю программирование и развиваюсь",
+        hello: "Привет, я", surname: "Акмалов.",
+        rolePrefix: "Я —", heroDesc: "Мне нравится создавать современные, красивые и удобные сайты. Каждый день я изучаю новые технологии и развиваю свои навыки программирования.",
+        seeProjects: "Мои проекты ↗", contactMe: "Связаться со мной",
+        scroll: "Прокрутите вниз",
+        aboutLabel: "01 / Обо мне", aboutTitle: "Подробнее <span class='gradient-text'>обо мне</span>",
+        aboutIntro: "Я Акмалов Мухаммадзиё — начинающий веб-разработчик из Ферганской области, увлечённый программированием.",
+        myStory: "Моя история",
+        myStoryText: "Я родился 25 июня 2014 года в Ферганской области. Я интересуюсь программированием и сейчас обучаюсь в учебном центре Аль-Фаргани. Моя цель — постоянно развивать знания, создавать новые проекты и стать сильным разработчиком.",
+        personalInfo: "Личная информация", fullName: "Полное имя",
+        birthDate: "Дата рождения", birthPlace: "Место рождения",
+        fergana: "Фергана, Узбекистан", profession: "Направление",
+        education: "Обучение", languages: "Языки",
+        interests: "Мои интересы",
+        interestsText: "Веб-разработка, создание современных интерфейсов, изучение новых фреймворков, креативный дизайн, анимации и решение задач с помощью кода.",
+        goal: "Моя цель",
+        goalText: "Стать сильным frontend-разработчиком, создавать реальные проекты, участвовать в проектах с открытым исходным кодом и работать над крупными технологическими проектами.",
+        skillsLabel: "02 / Технологии", skillsTitle: "Мои <span class='gradient-text'>навыки</span>",
+        skillsIntro: "Технологии, которые я изучаю и использую в веб-разработке. Мои навыки растут вместе с опытом.",
+        htmlDesc: "Структура страниц и семантический HTML", cssDesc: "Дизайн, Flexbox, Grid и анимации",
+        jsDesc: "DOM, события и интерактивность", tailwindDesc: "Utility-first дизайн",
+        reactDesc: "Компоненты и создание UI", nextDesc: "Веб-фреймворк на основе React",
+        nodeDesc: "JavaScript на стороне сервера", gitDesc: "Контроль версий кода",
+        responsiveDesc: "Интерфейсы для разных экранов",
+        skillsNote: "Примечание: проценты указаны для примера. Измените их в соответствии со своим реальным уровнем.",
+        resumeLabel: "03 / Резюме", resumeIntro: "Моё образование, развитие и цели в программировании.",
+        now: "В настоящее время", learningTitle: "Frontend Development",
+        learningText: "Изучение и практика HTML, CSS, JavaScript, Tailwind CSS, React, Next.js и Node.js.",
+        educationPeriod: "Обучение", educationTitle: "Учебный центр Аль-Фаргани",
+        educationText: "Изучаю программирование и стремлюсь закреплять теорию практическими проектами.",
+        nextStep: "Следующий шаг", futureTitle: "Стать профессиональным разработчиком",
+        futureText: "Создавать больше проектов, улучшать качество кода и глубже изучать современные веб-технологии.",
+        githubResume: "Мой GitHub ↗",
+        projectsLabel: "04 / Портфолио", projectsTitle: "Избранные <span class='gradient-text'>проекты</span>",
+        projectsIntro: "Добавьте сюда свои реальные проекты и ссылки на их репозитории GitHub.",
+        projectOne: "Личное портфолио", projectOneDesc: "Современный сайт-портфолио с информацией, навыками и контактами.",
+        projectTwo: "Интерактивный веб-дизайн", projectTwoDesc: "Идея проекта с анимациями, адаптивным дизайном и удобным интерфейсом.",
+        projectThree: "Проект на React", projectThreeDesc: "Карточка проекта для практики React и современных frontend-технологий.",
+        viewGithub: "Открыть GitHub ↗", projectNote: "Эти карточки являются примерами. Добавьте реальные проекты и обновите ссылки.",
+        contactLabel: "05 / Контакты", contactTitle: "Давайте <span class='gradient-text'>общаться!</span>",
+        contactIntro: "Есть вопрос, предложение или идея проекта? Напишите мне через следующие каналы связи.",
+        contactDetails: "Контактные данные", contactDetailsText: "Свяжитесь со мной через следующие платформы.",
+        phoneLabel: "Телефон", sendMessage: "Отправить сообщение",
+        formIntro: "Заполните форму. Готовое письмо откроется в вашей почтовой программе.",
+        yourName: "Ваше имя", yourEmail: "Ваш email", yourMessage: "Ваше сообщение",
+        sendBtn: "Отправить через email ↗",
+        emailNote: "Форма не подключена к серверу. Для отправки сообщения на устройстве должна быть настроена почтовая программа.",
+        footerText: "Создано с душой",
+        typingWords: ["Frontend Developer", "Web Developer", "UI Enthusiast", "Future Engineer"]
+      },
+
+      en: {
+        loading: "Loading portfolio...",
+        navHome: "Home", navAbout: "About Me", navSkills: "Skills",
+        navResume: "Resume", navProjects: "Projects", navContact: "Contact",
+        available: "Learning, building and growing",
+        hello: "Hi, I'm", surname: "Akmalov.",
+        rolePrefix: "I'm a", heroDesc: "I enjoy building modern, beautiful and user-friendly websites. I learn new technologies every day and continue improving my programming skills.",
+        seeProjects: "Explore Projects ↗", contactMe: "Contact Me",
+        scroll: "Scroll to explore",
+        aboutLabel: "01 / About Me", aboutTitle: "A little <span class='gradient-text'>about me</span>",
+        aboutIntro: "I'm Akmalov Muhammadziyo, an aspiring web developer from the Fergana region with a passion for programming.",
+        myStory: "My Story",
+        myStoryText: "I was born on June 25, 2014, in the Fergana region. I'm interested in programming and currently study at the Al-Farghani learning center. My goal is to keep improving my knowledge, build new projects and become a skilled developer.",
+        personalInfo: "Personal Information", fullName: "Full name",
+        birthDate: "Date of birth", birthPlace: "Place of birth",
+        fergana: "Fergana, Uzbekistan", profession: "Specialization",
+        education: "Education", languages: "Languages",
+        interests: "My Interests",
+        interestsText: "Web development, modern interfaces, learning new frameworks, creative design, animations and solving problems through code.",
+        goal: "My Goal",
+        goalText: "Become a skilled frontend developer, build real-world projects, contribute to open-source projects and work on larger technology products in the future.",
+        skillsLabel: "02 / Technologies", skillsTitle: "My <span class='gradient-text'>skills</span>",
+        skillsIntro: "Technologies I am learning and using in web development. My skills continue to grow with practice and experience.",
+        htmlDesc: "Page structure and semantic HTML", cssDesc: "Design, Flexbox, Grid and animations",
+        jsDesc: "DOM, events and interactivity", tailwindDesc: "Utility-first styling",
+        reactDesc: "Components and UI development", nextDesc: "React-based web framework",
+        nodeDesc: "Server-side JavaScript", gitDesc: "Version control",
+        responsiveDesc: "Interfaces for different screen sizes",
+        skillsNote: "Note: percentages are examples. Update them to reflect your actual skill level.",
+        resumeLabel: "03 / Resume", resumeIntro: "My education, learning journey and programming goals.",
+        now: "Currently", learningTitle: "Frontend Development",
+        learningText: "Learning and practicing HTML, CSS, JavaScript, Tailwind CSS, React, Next.js and Node.js.",
+        educationPeriod: "Education", educationTitle: "Al-Farghani Learning Center",
+        educationText: "Studying programming and working to strengthen theoretical knowledge through practical projects.",
+        nextStep: "Next Step", futureTitle: "Become a Professional Developer",
+        futureText: "Build more projects, improve code quality and explore modern web technologies in greater depth.",
+        githubResume: "Visit my GitHub ↗",
+        projectsLabel: "04 / Portfolio", projectsTitle: "Selected <span class='gradient-text'>projects</span>",
+        projectsIntro: "Add your real projects and their GitHub repository links to this section.",
+        projectOne: "Personal Portfolio", projectOneDesc: "A modern portfolio website with personal information, skills and contact details.",
+        projectTwo: "Interactive Web Design", projectTwoDesc: "A project concept focused on animation, responsive layouts and user-friendly interfaces.",
+        projectThree: "React Project", projectThreeDesc: "A sample project card for practicing React and modern frontend technologies.",
+        viewGithub: "View GitHub ↗", projectNote: "These cards are examples. Add real projects and update their links.",
+        contactLabel: "05 / Contact", contactTitle: "Let's <span class='gradient-text'>connect!</span>",
+        contactIntro: "Have a question, suggestion or project idea? Reach out through the contact channels below.",
+        contactDetails: "Contact Details", contactDetailsText: "You can reach me through these platforms.",
+        phoneLabel: "Phone", sendMessage: "Send Me a Message",
+        formIntro: "Fill in the form. A draft email will open in your email application.",
+        yourName: "Your name", yourEmail: "Your email", yourMessage: "Your message",
+        sendBtn: "Send via Email ↗",
+        emailNote: "This form is not connected to a server. An email application must be configured on your device.",
+        footerText: "Made with care",
+        typingWords: ["Frontend Developer", "Web Developer", "UI Enthusiast", "Future Engineer"]
+      }
+    };
+
+    let currentLang = 'uz';
+    const languageBtn = document.getElementById('language-btn');
+
+    function applyTranslations() {
+      const dict = translations[currentLang];
+
+      document.documentElement.lang = currentLang;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+
+      document.getElementById('loading-text').textContent = dict.loading;
+      document.getElementById('sender-name').placeholder = dict.yourName;
+      document.getElementById('sender-email').placeholder = 'name@example.com';
+      document.getElementById('sender-message').placeholder = dict.yourMessage + '...';
+
+      languageBtn.textContent = currentLang.toUpperCase();
+      document.title = currentLang === 'ru'
+        ? 'Акмалов Мухаммадзиё | Frontend Developer'
+        : currentLang === 'en'
+          ? 'Akmalov Muhammadziyo | Frontend Developer'
+          : 'Akmalov Muhammadziyo | Frontend Developer';
+
+      typingWords = dict.typingWords;
+      wordIndex = 0;
+    }
+
+    languageBtn.addEventListener('click', () => {
+      const order = ['uz', 'ru', 'en'];
+      currentLang = order[(order.indexOf(currentLang) + 1) % order.length];
+      applyTranslations();
+    });
+
+    // ===================================================
+    // 3. DARK / LIGHT MODE
+    // ===================================================
+    const themeBtn = document.getElementById('theme-btn');
+
+    function setTheme(light) {
+      document.body.classList.toggle('light', light);
+      themeBtn.textContent = light ? '🌙' : '☀️';
+      themeBtn.setAttribute('aria-label', light ? 'Tungi rejim' : 'Kunduzgi rejim');
+      document.querySelector('meta[name="theme-color"]').content = light ? '#f5f7ff' : '#080b16';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      setTheme(!document.body.classList.contains('light'));
+    });
+
+    // ===================================================
+    // 4. MOBILE MENU
+    // ===================================================
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    menuBtn.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.textContent = open ? '✕' : '☰';
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = '☰';
+      });
+    });
+
+    // ===================================================
+    // 5. ANIMATED TYPING
+    // ===================================================
+    let typingWords = translations.uz.typingWords;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeLoop() {
+      const element = document.getElementById('typing');
+      const word = typingWords[wordIndex % typingWords.length];
+
+      if (!deleting) {
+        charIndex++;
+        element.textContent = word.slice(0, charIndex);
+
+        if (charIndex >= word.length) {
+          deleting = true;
+          setTimeout(typeLoop, 1300);
+          return;
+        }
+      } else {
+        charIndex--;
+        element.textContent = word.slice(0, charIndex);
+
+        if (charIndex <= 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % typingWords.length;
+        }
+      }
+
+      setTimeout(typeLoop, deleting ? 35 : 75);
+    }
+
+    typeLoop();
+
+    // ===================================================
+    // 6. SCROLL REVEAL + SKILL ANIMATION
+    // ===================================================
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add('visible');
+
+        if (entry.target.classList.contains('skill-card')) {
+          const fill = entry.target.querySelector('.skill-fill');
+          fill.style.width = entry.target.dataset.level + '%';
+        }
+
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ===================================================
+    // 7. NAVIGATION ACTIVE STATE + BACK TO TOP
+    // ===================================================
+    const backTop = document.getElementById('back-top');
+    const sections = document.querySelectorAll('main section[id]');
+    const navItems = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('show', window.scrollY > 500);
+
+      let activeId = 'home';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 180) activeId = section.id;
+      });
+
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + activeId);
+      });
+    }, { passive: true });
+
+    backTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ===================================================
+    // 8. ANIMATED PARTICLE BACKGROUND
+    // ===================================================
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let width = 0;
+    let height = 0;
+    let frame = 0;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const count = Math.min(65, Math.floor(width / 18));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - .5) * .35,
+        vy: (Math.random() - .5) * .35,
+        r: Math.random() * 1.7 + .5
+      }));
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      const light = document.body.classList.contains('light');
+      const color = light ? '70, 80, 160' : '142, 153, 255';
+      const linkColor = light ? '100, 110, 180' : '105, 122, 210';
+
+      particles.forEach((p, i) => {
+        if (!reduceMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, .65)`;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 105) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(${linkColor}, ${.14 * (1 - dist / 105)})`;
+            ctx.lineWidth = .6;
+            ctx.stroke();
+          }
+        }
+      });
+
+      if (!reduceMotion) frame = requestAnimationFrame(drawParticles);
+    }
+
+    resizeCanvas();
+    drawParticles();
+
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(frame);
+      resizeCanvas();
+      drawParticles();
+    }, { passive: true });
+
+    // ===================================================
+    // 9. CUSTOM CURSOR + MAGNETIC HOVER
+    // ===================================================
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      window.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursor.style.opacity = '1';
+        ring.style.opacity = '1';
+        cursor.style.transform = `translate(${mouseX - 3}px, ${mouseY - 3}px)`;
+      }, { passive: true });
+
+      function moveRing() {
+        ringX += (mouseX - ringX - 15) * .18;
+        ringY += (mouseY - ringY - 15) * .18;
+        ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+        requestAnimationFrame(moveRing);
+      }
+
+      moveRing();
+
+      document.querySelectorAll('a, button, input, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+      });
+
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        ring.style.opacity = '0';
+      });
+    }
+
+    // ===================================================
+    // 10. CONTACT FORM -> MAILTO
+    // ===================================================
+    document.getElementById('contact-form').addEventListener('submit', event => {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+
+      const name = document.getElementById('sender-name').value.trim();
+      const email = document.getElementById('sender-email').value.trim();
+      const message = document.getElementById('sender-message').value.trim();
+
+      const subject = encodeURIComponent('Portfolio orqali xabar — ' + name);
+      const body = encodeURIComponent(
+        'Ism: ' + name + '\n' +
+        'Email: ' + email + '\n\n' +
+        'Xabar:\n' + message
+      );
+
+      window.location.href =
+        'mailto:toraakhmalov@gmail.com?subject=' + subject + '&body=' + body;
+    });
+
+    // ===================================================
+    // 11. FOOTER YEAR + INITIAL SETTINGS
+    // ===================================================
+    document.getElementById('year').textContent = new Date().getFullYear();
+    applyTranslations();
+    setTheme(false);
+  </script>
+</body>
+</html>
+   
