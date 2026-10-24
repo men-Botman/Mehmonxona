@@ -13,7 +13,35 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
+  <style>.cv-header-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #00e5c3;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7455ff, #5b70ff);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.25s ease;
+}
+
+.cv-header-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px #7455ff55;
+}
+
+@media (max-width: 700px) {
+    .cv-header-btn {
+        padding: 8px 9px;
+        font-size: 10px;
+    }
+}
+
+
     :root {
       color-scheme: dark;
       --bg: #080b16;
@@ -737,7 +765,7 @@
 
   <header class="header">
     <nav class="nav" aria-label="Asosiy navigatsiya">
-      <a class="brand" href="#home">Akhmalov<span>.</span>DEV</a>
+      <a class="brand" href="#home">Akhmalov<span>.</span>   DEV</a>
 
       <div class="nav-links" id="nav-links">
         <a href="#home" data-i18n="navHome">Bosh sahifa</a>
@@ -752,6 +780,14 @@
       <div class="nav-actions">
         <button class="icon-btn lang-btn" id="language-btn" aria-label="Tilni almashtirish">UZ</button>
         <button class="icon-btn" id="theme-btn" aria-label="Rang rejimini almashtirish">☀️</button>
+        <a
+    href="./Resume.docx"
+    download="Muhammadziyo_Akmalov_CV.docx"
+    class="cv-header-btn"
+>
+    ⬇ CV yuklab olish
+</a>
+        
         <!-- CSS: <style> ichiga qo‘sh -->
 <style>
     .cv-download {
@@ -810,15 +846,7 @@
 }
 </style>
 
-<!-- HEADER: nav-actions ichiga, til tugmasidan oldin qo‘sh -->
-<a
-    class="cv-download"
-    href="Resume.docx"
-    download="Muhammadziyo_Akmalov_CV.docx"
-    data-i18n="cvDownload"
->
-    ↓ CV yuklab olish
-</a>
+
 
 
         <button class="menu-btn" id="menu-btn" aria-label="Menyuni ochish" aria-expanded="false">☰</button>
